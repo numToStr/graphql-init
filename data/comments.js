@@ -1,4 +1,4 @@
-[
+module.exports = [
     {
         postId: 1,
         id: 1,

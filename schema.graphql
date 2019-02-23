@@ -2,7 +2,8 @@ type Query {
     hello(name: String): String!
     users: [User!]!
     skills: [String!]!
-    posts: [Post!]!
+    posts(author: ID): [Post!]!
+    post(id: ID!): Post
 }
 
 type User {
@@ -12,9 +13,21 @@ type User {
     email: String
     phone: String!
     website: String!
+    posts: [Post]!
 }
 
 type Post {
+    id: ID!
+    author: User!
     title: String!
+    body: String!
+    comments: [Comment]!
+}
+
+type Comment {
+    id: ID!
+    post: Post!
+    name: String!
+    email: String!
     body: String!
 }
