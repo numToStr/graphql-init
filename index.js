@@ -1,66 +1,31 @@
 const { GraphQLServer } = require("graphql-yoga");
-
-const typeDefs = `
-    type Query {
-        hello(name: String): String!
-        user: User
-        skills: [String!]!,
-        posts: [Post!]!
-    }
-
-    type User {
-        name: String!
-        age: Int!
-        student: Boolean!
-        ttl: Float!
-    }
-
-    type Post {
-        title: String!
-        body: String!
-    }
-`;
+const users = require("./data/user");
+const posts = require("./data/posts");
 
 const resolvers = {
     Query: {
         hello(parent, { name }, ctx, info) {
             return name ? `Hello ${name}` : "Hello GraphQl";
         },
-        user() {
-            return {
-                name: "Vikas Raj",
-                age: 22,
-                student: false,
-                ttl: 20.3
-            };
-        },
+        users: () => users,
         skills() {
             return ["HTML", "CSS", "Javascript"];
         },
-        posts() {
-            return [
-                {
-                    title: "First Post",
-                    body: "First Body"
-                },
-                {
-                    title: "Second Post",
-                    body: "Second Body"
-                }
-            ];
-        }
+        posts: () => posts
     }
 };
 
 const server = new GraphQLServer({
-    typeDefs,
+    typeDefs: "./schema.graphql",
     resolvers
 });
 
 server.start(
     {
-        port: 5000,
-        playground: "/play"
+        port: 4000,
+        playground: "/",
+        endpoint: "/api",
+        subscriptions: "/subscriptions"
     },
     () => console.log("[Server is up]")
 );
