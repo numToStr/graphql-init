@@ -6,14 +6,38 @@ type Query {
     post(id: ID!): Post
 }
 
+type Mutation {
+    createUser(data: CreateUserInput!): User!
+    updateUser(where: FindUserInput!, data: UpdateUserInput!): User!
+    deleteUser(where: FindUserInput!): User!
+}
+
+input FindUserInput {
+    id: ID!
+}
+
+input UpdateUserInput {
+    name: String
+    username: String
+    email: String
+    phone: String
+    website: String
+}
+
+input CreateUserInput {
+    name: String!
+    username: String!
+    email: String!
+}
+
 type User {
     id: ID!
     name: String!
     username: String!
     email: String
-    phone: String!
-    website: String!
-    posts: [Post]!
+    phone: String
+    website: String
+    posts: [Post]
 }
 
 type Post {
