@@ -1,8 +1,7 @@
 const uuidv4 = require("uuid/v4");
-const db = require("../data");
 
 module.exports = {
-    createUser(parent, { data }, ctx, info) {
+    createUser(parent, { data }, { db }, info) {
         const userExists = db.users.find(
             user => user.email === data.email || user.username === data.username
         );
@@ -20,7 +19,7 @@ module.exports = {
 
         return user;
     },
-    updateUser(parent, { where, data }, ctx, info) {
+    updateUser(parent, { where, data }, { db }, info) {
         const index = db.users.findIndex(
             user => String(user.id) === String(where.id)
         );
@@ -38,7 +37,7 @@ module.exports = {
 
         return user;
     },
-    deleteUser(parent, { where }, ctx, info) {
+    deleteUser(parent, { where }, { db }, info) {
         const index = db.users.findIndex(user => String(user.id) === where.id);
 
         if (index < 0) {
@@ -70,7 +69,7 @@ module.exports = {
         {
             data: { author, title, body }
         },
-        { pubsub },
+        { db, pubsub },
         info
     ) {
         const post = {
@@ -91,7 +90,7 @@ module.exports = {
 
         return post;
     },
-    updatePost(parent, { where, data }, { pubsub }, info) {
+    updatePost(parent, { where, data }, { db, pubsub }, info) {
         const index = db.posts.findIndex(
             post => String(post.id) === String(where.id)
         );
@@ -116,7 +115,7 @@ module.exports = {
 
         return post;
     },
-    deletePost(parent, { where }, { pubsub }, info) {
+    deletePost(parent, { where }, { db, pubsub }, info) {
         const index = db.posts.findIndex(post => String(post.id) === where.id);
 
         if (index < 0) {
