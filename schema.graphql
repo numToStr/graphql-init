@@ -1,3 +1,5 @@
+# ========== Resolvers ============
+
 type Query {
     hello(name: String): String!
     users: [User!]!
@@ -8,27 +10,18 @@ type Query {
 
 type Mutation {
     createUser(data: CreateUserInput!): User!
-    updateUser(where: FindUserInput!, data: UpdateUserInput!): User!
-    deleteUser(where: FindUserInput!): User!
+    updateUser(where: FindInput!, data: UpdateUserInput!): User!
+    deleteUser(where: FindInput!): User!
+    createPost(data: CreatePostInput!): Post!
+    updatePost(where: FindInput!, data: UpdatePostInput!): Post!
+    deletePost(where: FindInput!): Post!
 }
 
-input FindUserInput {
-    id: ID!
+type Subscription {
+    post: PostSubscription!
 }
 
-input UpdateUserInput {
-    name: String
-    username: String
-    email: String
-    phone: String
-    website: String
-}
-
-input CreateUserInput {
-    name: String!
-    username: String!
-    email: String!
-}
+# =========== Types ===========
 
 type User {
     id: ID!
@@ -54,4 +47,47 @@ type Comment {
     name: String!
     email: String!
     body: String!
+}
+
+type PostSubscription {
+    type: MutationType!
+    data: Post!
+}
+
+# ========== Inputs ==========
+
+input FindInput {
+    id: ID!
+}
+
+input UpdateUserInput {
+    name: String
+    username: String
+    email: String
+    phone: String
+    website: String
+}
+
+input CreateUserInput {
+    name: String!
+    username: String!
+    email: String!
+}
+
+input CreatePostInput {
+    author: String!
+    title: String!
+    body: String!
+}
+
+input UpdatePostInput {
+    title: String
+    body: String
+}
+
+# ========= Enums =========
+enum MutationType {
+    CREATED
+    UPDATED
+    DELETED
 }
