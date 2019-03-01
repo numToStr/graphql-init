@@ -1,0 +1,13 @@
+language: node_js
+node_js:
+    - "10"
+git:
+    depth: 3
+    quite: true
+branches:
+    only:
+        - master
+before_script:
+    - npm ci
+cache: npm
+script: "npm start"
