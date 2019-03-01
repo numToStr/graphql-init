@@ -2,13 +2,13 @@ const { logInput, logResult } = require("./loggers");
 
 const openResolvers = {
     Query: {
-        hello: logInput
+        hello: logResult
     }
 };
 
 const closedResolvers = {
     Query: {
-        users: logResult
+        users: logInput
     }
 };
 
